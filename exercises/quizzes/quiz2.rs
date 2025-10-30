@@ -27,7 +27,16 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: impl IntoIterator<Item = (String, Command)>) -> Vec<String> {
+        input
+            .into_iter()
+            .map(|(s, m)| match m {
+                Command::Uppercase => s.to_uppercase(),
+                Command::Trim => s.trim().to_owned(),
+                Command::Append(n) => s + &"bar".repeat(n),
+            })
+            .collect()
+    }
 }
 
 fn main() {
@@ -37,8 +46,8 @@ fn main() {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
     use super::Command;
+    use super::my_module::transformer;
 
     #[test]
     fn it_works() {
